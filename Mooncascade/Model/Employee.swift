@@ -8,11 +8,15 @@
 
 import Foundation
 
+struct EmployeeList: Decodable {
+    var employees: [Employee]
+}
+
 struct Employee: Decodable {
     var firstname: String
     var lastname: String
-    var contacts: [ContactInformation]
     var position: String
+    var contacts: ContactInformation
     var projects: [String]?
     
     private enum CodingKeys: String, CodingKey {
@@ -27,4 +31,10 @@ struct Employee: Decodable {
 struct ContactInformation: Decodable {
     var email: String
     var phone: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case email = "email"
+        case phone = "phone"
+    }
+
 }

@@ -17,6 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.rootViewController = ListVC()
         window?.makeKeyAndVisible()
+        
+        NetworkManager.shared.getEmployees(for: .tallinn) { result in
+            switch result {
+            case .success(let employees):
+                print(employees)
+            case .failure(let error):
+                print(error.rawValue)
+            }
+        }
         return true
     }
 

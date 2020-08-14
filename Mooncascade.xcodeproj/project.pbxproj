@@ -15,6 +15,8 @@
 		84A63D3B24E6FD94007094AD /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D3A24E6FD94007094AD /* Employee.swift */; };
 		84A63D3F24E6FFB0007094AD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D3E24E6FFB0007094AD /* NetworkManager.swift */; };
 		84A63D4124E6FFC3007094AD /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4024E6FFC3007094AD /* ContactManager.swift */; };
+		84A63D4324E7032C007094AD /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4224E7032C007094AD /* Endpoints.swift */; };
+		84A63D4524E70456007094AD /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4424E70456007094AD /* Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		84A63D3A24E6FD94007094AD /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		84A63D3E24E6FFB0007094AD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		84A63D4024E6FFC3007094AD /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
+		84A63D4224E7032C007094AD /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
+		84A63D4424E70456007094AD /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				84A63D3A24E6FD94007094AD /* Employee.swift */,
+				84A63D4224E7032C007094AD /* Endpoints.swift */,
+				84A63D4424E70456007094AD /* Error.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -194,6 +200,8 @@
 				843BBD2F24E6F4AF001A69D4 /* ListVC.swift in Sources */,
 				84A63D3B24E6FD94007094AD /* Employee.swift in Sources */,
 				84A63D3F24E6FFB0007094AD /* NetworkManager.swift in Sources */,
+				84A63D4524E70456007094AD /* Error.swift in Sources */,
+				84A63D4324E7032C007094AD /* Endpoints.swift in Sources */,
 				843BBD2B24E6F4AF001A69D4 /* AppDelegate.swift in Sources */,
 				84A63D4124E6FFC3007094AD /* ContactManager.swift in Sources */,
 				843BBD2D24E6F4AF001A69D4 /* SceneDelegate.swift in Sources */,
