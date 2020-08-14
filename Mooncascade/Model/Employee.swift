@@ -8,11 +8,17 @@
 
 import Foundation
 
-struct EmployeeList: Decodable {
+struct EmployeeList: Decodable, Hashable {
     var employees: [Employee]
 }
 
-struct Employee: Decodable {
+struct Employee: Decodable, Hashable {
+    var fullname: String {
+        get {
+            return "\(firstname) \(lastname)"
+        }
+    }
+    
     var firstname: String
     var lastname: String
     var position: String
@@ -28,7 +34,7 @@ struct Employee: Decodable {
     }
 }
 
-struct ContactInformation: Decodable {
+struct ContactInformation: Decodable, Hashable {
     var email: String
     var phone: String?
     
