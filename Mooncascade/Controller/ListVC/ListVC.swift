@@ -16,7 +16,7 @@ class ListVC: UIViewController {
                 lhs.lastname < rhs.lastname
             }
             for employee in employees {
-                print(employee.lastname)
+                print(employee.fullname)
             }
         }
     }

@@ -18,6 +18,8 @@
 		84A63D4124E6FFC3007094AD /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4024E6FFC3007094AD /* ContactManager.swift */; };
 		84A63D4324E7032C007094AD /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4224E7032C007094AD /* Endpoints.swift */; };
 		84A63D4524E70456007094AD /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63D4424E70456007094AD /* Error.swift */; };
+		84EC160424E7D84F00C1147E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC160324E7D84F00C1147E /* View.swift */; };
+		84EC160724E7D87A00C1147E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC160624E7D87A00C1147E /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		84A63D4024E6FFC3007094AD /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
 		84A63D4224E7032C007094AD /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		84A63D4424E70456007094AD /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		84EC160324E7D84F00C1147E /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		84EC160624E7D87A00C1147E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,7 @@
 		843BBD3F24E6FB21001A69D4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				84EC160224E7D84600C1147E /* Base */,
 				84A63D3D24E6FDCB007094AD /* ListVC */,
 			);
 			path = View;
@@ -100,6 +105,7 @@
 		843BBD4024E6FB2E001A69D4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				84EC160524E7D86600C1147E /* Base */,
 				84A63D3C24E6FDAD007094AD /* ListVC */,
 			);
 			path = Controller;
@@ -144,6 +150,22 @@
 			children = (
 			);
 			path = ListVC;
+			sourceTree = "<group>";
+		};
+		84EC160224E7D84600C1147E /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				84EC160324E7D84F00C1147E /* View.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		84EC160524E7D86600C1147E /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				84EC160624E7D87A00C1147E /* ViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +240,7 @@
 			files = (
 				846E875A24E71F5D00D2A417 /* Array.swift in Sources */,
 				843BBD2F24E6F4AF001A69D4 /* ListVC.swift in Sources */,
+				84EC160424E7D84F00C1147E /* View.swift in Sources */,
 				84A63D3B24E6FD94007094AD /* Employee.swift in Sources */,
 				84A63D3F24E6FFB0007094AD /* NetworkManager.swift in Sources */,
 				84A63D4524E70456007094AD /* Error.swift in Sources */,
@@ -225,6 +248,7 @@
 				843BBD2B24E6F4AF001A69D4 /* AppDelegate.swift in Sources */,
 				84A63D4124E6FFC3007094AD /* ContactManager.swift in Sources */,
 				843BBD2D24E6F4AF001A69D4 /* SceneDelegate.swift in Sources */,
+				84EC160724E7D87A00C1147E /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
