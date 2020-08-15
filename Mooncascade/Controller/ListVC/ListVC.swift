@@ -8,37 +8,37 @@
 
 import UIKit
 
-class ListVC: UIViewController {
-    var employees: [Employee] = [] {
-        didSet {
-            employees = employees.removingDuplicates()
-            employees.sort { (lhs, rhs) -> Bool in
-                lhs.lastname < rhs.lastname
-            }
-            for employee in employees {
-                print(employee.fullname)
-            }
-        }
-    }
-    
+class ListVC: ViewController<ListVCViews> {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchEmployees()
     }
     
     func fetchEmployees(){
+        let group = DispatchGroup()
         let endpoints: [Endpoint] = [.tallinn, .tartu]
         for endpoint in endpoints {
+            group.enter()
             NetworkManager.shared.getEmployees(for: endpoint) { result in
                 switch result {
-                case .success(let fetchedEmployees):
-                    self.employees.append(contentsOf: fetchedEmployees)
+                case .success(let employees):
+                    self.customView.employees.append(contentsOf: employees)
                 case .failure(let error):
                     print(error.rawValue)
                 }
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            self.customView.employees = self.customView.employees.removingDuplicates().sorted(by: {$0.lastname < $1.lastname})
+            self.customView.positions.append(contentsOf: self.customView.employees.map({$0.position}).removingDuplicates().sorted())
+            DispatchQueue.main.async {
+                self.customView.collectionView.reloadData()
+                self.customView.indicator.stopAnimating()
             }
         }
     }
+    
 
 }
 
