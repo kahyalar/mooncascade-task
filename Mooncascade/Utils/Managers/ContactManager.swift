@@ -7,6 +7,7 @@
 //
 
 import Contacts
+import ContactsUI
 
 class ContactsManager {
     private init() { }
@@ -21,14 +22,9 @@ class ContactsManager {
         let keys = [
             CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
             CNContactPhoneNumbersKey,
-            CNContactImageDataAvailableKey,
-            CNContactImageDataKey,
-            CNContactBirthdayKey,
             CNContactEmailAddressesKey,
-            CNContactJobTitleKey,
-            CNContactMiddleNameKey,
-            CNContactVCardSerialization.descriptorForRequiredKeys()
-        ] as [Any]
+            CNContactViewController.descriptorForRequiredKeys()
+            ] as [Any]
 
         let request = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
         var contacts = [CNContact]()
@@ -38,6 +34,25 @@ class ContactsManager {
         
         completion(contacts)
     }
+    
+    func showContactPage(for contact: CNContact?, from viewController: UIViewController) {
+        guard let contact = contact else {
+            viewController.present(AlertManager.shared.alert(for: .systemError), animated: true)
+            return
+        }
+        
+        let contactViewController: CNContactViewController = {
+            let contactViewController = CNContactViewController(for: contact)
+            contactViewController.allowsEditing = false
+            contactViewController.allowsActions = false
+            return contactViewController
+        }()
+        
+        DispatchQueue.main.async {
+            viewController.navigationController?.pushViewController(contactViewController, animated: true)
+        }
+    }
+
 }
 
 

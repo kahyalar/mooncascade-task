@@ -7,11 +7,8 @@
 //
 
 import UIKit
-import Contacts
 
 class ListVC: ViewController<ListVCViews> {
-var contacts: [CNContact] = []
-    
     lazy var searchBar: UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.sizeToFit()
@@ -22,6 +19,7 @@ var contacts: [CNContact] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        customView.viewController = self
         fetchContacts()
         fetchEmployees()
         prepareSearchBar(shouldVisible: false)
@@ -63,11 +61,8 @@ var contacts: [CNContact] = []
         }
         group.notify(queue: .main) {
             self.customView.employees = self.customView.employees.removingDuplicates().sorted(by: {$0.lastname < $1.lastname})
-            self.customView.dataSource = self.customView.employees
             self.customView.positions.append(contentsOf: self.customView.employees.map({$0.position}).removingDuplicates().sorted())
-            let employees = Set(self.customView.employees.map({$0.fullname.lowercased()}))
-            let contacts = Set(self.contacts.map({"\($0.givenName.lowercased()) \($0.familyName.lowercased())"}))
-            self.customView.matchedContacts = Array(employees.intersection(contacts))
+            self.customView.dataSource = self.customView.employees
             DispatchQueue.main.async {
                 self.customView.collectionView.reloadData()
                 self.customView.indicator.stopAnimating()
@@ -85,7 +80,7 @@ var contacts: [CNContact] = []
             case true:
                 do {
                     try ContactsManager.shared.fetchContacts { (contacts) in
-                        self.contacts = contacts
+                        self.customView.contacts = contacts
                     }
                 } catch {
                     self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)

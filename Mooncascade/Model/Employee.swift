@@ -6,6 +6,7 @@
 //  Copyright © 2020 Furkan Kahyalar. All rights reserved.
 //
 
+import Contacts
 import Foundation
 
 struct EmployeeList: Decodable, Hashable {
@@ -24,6 +25,7 @@ struct Employee: Decodable, Hashable {
     var position: String
     var contacts: ContactInformation
     var projects: [String]?
+    var nativeContact: CNContact?
     
     private enum CodingKeys: String, CodingKey {
         case firstname = "fname"

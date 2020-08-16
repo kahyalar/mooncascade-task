@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import Contacts
 
 class ListVCViews: View {
+    weak var viewController: ListVC!
     var positions: [String] = []
+    var contacts: [CNContact] = []
     var employees: [Employee] = []
     var dataSource: [Employee] = []
     var matchedContacts: [String] = []
@@ -56,6 +59,10 @@ class ListVCViews: View {
         collectionView.register(ListViewCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView.register(ListViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
     }
+    
+    private func getContact(for employee: Employee) -> CNContact? {
+        return contacts.filter({"\($0.givenName) \($0.familyName)" == employee.fullname}).first
+    }
 }
 
 extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -69,9 +76,10 @@ extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ListViewCell
-        let employee = dataSource.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
-        cell.nameLabel.text = employee.fullname
-        cell.detailsButton.isHidden = !matchedContacts.contains(employee.fullname.lowercased())
+        var employee = dataSource.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
+        employee.nativeContact = getContact(for: employee)
+        cell.viewController = viewController
+        cell.configureCell(for: employee)
         return cell
     }
     
