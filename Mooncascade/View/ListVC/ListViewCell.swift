@@ -19,6 +19,14 @@ class ListViewCell: Cell {
         return label
     }()
     
+    lazy var detailsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.tintColor = .systemBlue
+        button.setTitle(">>", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func layoutViews() {
         super.layoutViews()
         
@@ -27,5 +35,17 @@ class ListViewCell: Cell {
             nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             nameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: width * 0.05)
         ])
+        
+        addSubview(detailsButton)
+        NSLayoutConstraint.activate([
+            detailsButton.topAnchor.constraint(equalTo: topAnchor),
+            detailsButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            detailsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            detailsButton.trailingAnchor.constraint(greaterThanOrEqualTo: trailingAnchor, constant: -width * 0.05)
+        ])
+    }
+    
+    func configureCell(for employee: Employee) {
+        nameLabel.text = employee.fullname
     }
 }

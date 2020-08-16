@@ -11,6 +11,18 @@ import UIKit
 class ListVC: ViewController<ListVCViews> {
     override func viewDidLoad() {
         super.viewDidLoad()
+        ContactsManager.shared.requestAccess { (result, error) in
+            if let _ = error {
+                self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+            }
+            
+            switch result {
+            case true:
+                self.fetchContacts()
+            case false:
+                self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
+            }
+        }
         fetchEmployees()
     }
     
@@ -24,7 +36,7 @@ class ListVC: ViewController<ListVCViews> {
                 case .success(let employees):
                     self.customView.employees.append(contentsOf: employees)
                 case .failure(let error):
-                    print(error.rawValue)
+                    self.present(AlertManager.shared.alert(for: error), animated: true, completion: nil)
                 }
                 group.leave()
             }
@@ -39,6 +51,14 @@ class ListVC: ViewController<ListVCViews> {
         }
     }
     
-
+    func fetchContacts(){
+        do {
+            try ContactsManager.shared.fetchContacts { (contacts) in
+                print(contacts.count)
+            }
+        } catch {
+            self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+        }
+    }
 }
 

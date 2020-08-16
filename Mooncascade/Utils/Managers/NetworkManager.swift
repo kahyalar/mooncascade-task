@@ -12,20 +12,20 @@ class NetworkManager {
     private init (){}
     static let shared = NetworkManager()
     
-    func getEmployees(for endpoint: Endpoint, completed: @escaping(Result<[Employee], NetworkError>) -> Void) {
+    func getEmployees(for endpoint: Endpoint, completed: @escaping(Result<[Employee], MCError>) -> Void) {
         guard let url = URL(string: endpoint.rawValue) else {
-            completed(.failure(.urlError))
+            completed(.failure(.urlNotReachable))
             return
         }
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completed(.failure(.taskError))
+                completed(.failure(.fetchingFailed))
                 return
             }
 
             guard let data = data else {
-                completed(.failure(.dataError))
+                completed(.failure(.systemError))
                 return
             }
 
@@ -34,7 +34,7 @@ class NetworkManager {
                 let employeeList = try decoder.decode(EmployeeList.self, from: data)
                 completed(.success(employeeList.employees))
             } catch {
-                completed(.failure(.dataError))
+                completed(.failure(.systemError))
             }
         }.resume()
     }

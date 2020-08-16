@@ -44,13 +44,3 @@ struct ContactInformation: Decodable, Hashable {
     }
 
 }
-
-enum Position: String {
-    case android = "ANDROID"
-    case ios = "IOS"
-    case other = "OTHER"
-    case projectManagement = "PM"
-    case sales = "SALES"
-    case tester = "TESTER"
-    case web = "WEB"
-}

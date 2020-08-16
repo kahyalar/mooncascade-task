@@ -9,7 +9,6 @@
 import UIKit
 
 class ListVCViews: View {
-//    var positions: [Position] = [.android, .ios, .other, .projectManagement, .sales, .tester, .web]
     var positions: [String] = []
     var employees: [Employee] = []
     
@@ -61,7 +60,8 @@ extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ListViewCell
-        cell.nameLabel.text = employees.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row].fullname
+        let employee = employees.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
+        cell.configureCell(for: employee)
         return cell
     }
     

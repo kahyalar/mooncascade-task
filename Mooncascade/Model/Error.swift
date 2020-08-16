@@ -8,8 +8,9 @@
 
 import Foundation
 
-enum NetworkError: String, Error {
-    case urlError = "Site is not reachable. Please try again later!"
-    case taskError = "Fetching failed. Please check your internet connectivity!"
-    case dataError = "Whoops! Something went wrong, please try again!"
+enum MCError: String, Error {
+    case urlNotReachable = "Site is not reachable. Please try again later!"
+    case fetchingFailed = "Fetching failed. Please check your internet connectivity!"
+    case systemError = "Whoops! Something went wrong, please try again!"
+    case contactsPermissionDenied = "For the full experience please allow to access contacts. (Settings -> Mooncascade -> Contacts)"
 }
