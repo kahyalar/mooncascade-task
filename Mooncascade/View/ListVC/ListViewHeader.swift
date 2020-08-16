@@ -9,15 +9,7 @@
 import UIKit
 
 class ListViewHeader: Header {
-    lazy var title: UILabel = {
-        let label = UILabel()
-        label.sizeToFit()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: label.font.pointSize + 2.5, weight: .bold)
-        return label
-    }()
+    lazy var title = MCLabel(weight: .bold, size: 2.5)
     
     override func layoutViews() {
         super.layoutViews()

@@ -101,4 +101,16 @@ extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: width, height: height * 0.075)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ListViewCell
+        let detailPage: DetailVC = {
+            let detailPage = DetailVC()
+            detailPage.employee = cell.employee
+            return detailPage
+        }()
+        DispatchQueue.main.async {
+            self.viewController.navigationController?.pushViewController(detailPage, animated: true)
+        }
+    }
 }

@@ -19,13 +19,12 @@ class ListViewCell: Cell {
         label.font = UIFont.systemFont(ofSize: label.font.pointSize, weight: .regular)
         return label
     }()
-    
     lazy var detailsButton: UIButton = {
         let button = UIButton(type: .system)
         button.isHidden = true
         button.tintColor = .systemBlue
-        button.setTitle(">>", for: .normal)
-        button.addTarget(self, action: #selector(getContactDetails), for: .touchUpInside)
+        button.setTitle("✅", for: .normal)
+        button.addTarget(self, action: #selector(showNativePage), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -49,7 +48,7 @@ class ListViewCell: Cell {
         ])
     }
     
-    @objc func getContactDetails() {
+    @objc func showNativePage() {
         ContactsManager.shared.showContactPage(for: employee.nativeContact, from: viewController)
     }
     
