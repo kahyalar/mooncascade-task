@@ -12,5 +12,6 @@ enum MCError: String, Error {
     case urlNotReachable = "Site is not reachable. Please try again later!"
     case fetchingFailed = "Fetching failed. Please check your internet connectivity!"
     case systemError = "Whoops! Something went wrong, please try again!"
+    case cacheNotFound = "Cache is not found!"
     case contactsPermissionDenied = "For the full experience please allow to access contacts. (Settings -> Mooncascade -> Contacts)"
 }
