@@ -20,4 +20,10 @@ extension Array where Element: Hashable {
     mutating func removeDuplicates() {
         self = self.removingDuplicates()
     }
+    
+    mutating func appendMultiple(sources: [Element]...) {
+        for source in sources {
+            self.append(contentsOf: source)
+        }
+    }
 }

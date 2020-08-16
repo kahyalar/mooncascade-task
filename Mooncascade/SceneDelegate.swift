@@ -10,13 +10,19 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    
+    private func generateNavigationController() -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: ListVC())
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.topItem?.title = "Contacts"
+        return navigationController
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let navigationController = UINavigationController(rootViewController: ListVC())
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = navigationController
+        window?.rootViewController = generateNavigationController()
         window?.makeKeyAndVisible()
     }
 

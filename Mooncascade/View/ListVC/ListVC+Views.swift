@@ -11,7 +11,8 @@ import UIKit
 class ListVCViews: View {
     var positions: [String] = []
     var employees: [Employee] = []
-    
+    var dataSource: [Employee] = []
+    lazy var refreshControl = UIRefreshControl()
     lazy var collectionView = UICollectionView(orientation: .vertical)
     lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -22,7 +23,7 @@ class ListVCViews: View {
     
     override func layoutViews() {
         super.layoutViews()
-        prepareCollectionViews()
+        prepareCollectionView()
         
         addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -39,11 +40,18 @@ class ListVCViews: View {
         ])
     }
     
-    private func prepareCollectionViews(){
-        collectionView.backgroundColor = .systemGray6
+    @objc private func refreshList() {
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
+    private func prepareCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = .systemGray6
+        collectionView.refreshControl = refreshControl
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
         collectionView.register(ListViewCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView.register(ListViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
     }
@@ -55,12 +63,12 @@ extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return employees.filter({$0.position == positions[section]}).count
+        return dataSource.filter({$0.position == positions[section]}).count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ListViewCell
-        let employee = employees.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
+        let employee = dataSource.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
         cell.configureCell(for: employee)
         return cell
     }

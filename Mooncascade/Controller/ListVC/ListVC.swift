@@ -9,24 +9,41 @@
 import UIKit
 
 class ListVC: ViewController<ListVCViews> {
+    lazy var searchBar: UISearchBar = {
+       let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        searchBar.autocapitalizationType = .none
+        return searchBar
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        ContactsManager.shared.requestAccess { (result, error) in
-            if let _ = error {
-                self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
-            }
-            
-            switch result {
-            case true:
-                self.fetchContacts()
-            case false:
-                self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
-            }
-        }
+        fetchContacts()
         fetchEmployees()
+        prepareSearchBar(shouldVisible: false)
     }
     
-    func fetchEmployees(){
+    @objc func searchContact() {
+        prepareSearchBar(shouldVisible: true)
+    }
+    
+    private func prepareSearchBar(shouldVisible: Bool){
+        if shouldVisible {
+            navigationItem.rightBarButtonItem = nil
+            navigationItem.titleView = searchBar
+            searchBar.becomeFirstResponder()
+            searchBar.showsCancelButton = true
+        } else {
+            navigationItem.titleView = nil
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchContact))
+            navigationItem.rightBarButtonItem?.tintColor = .black
+            searchBar.showsCancelButton = false
+        }
+        
+    }
+    
+    private func fetchEmployees(){
         let group = DispatchGroup()
         let endpoints: [Endpoint] = [.tallinn, .tartu]
         for endpoint in endpoints {
@@ -43,6 +60,7 @@ class ListVC: ViewController<ListVCViews> {
         }
         group.notify(queue: .main) {
             self.customView.employees = self.customView.employees.removingDuplicates().sorted(by: {$0.lastname < $1.lastname})
+            self.customView.dataSource = self.customView.employees
             self.customView.positions.append(contentsOf: self.customView.employees.map({$0.position}).removingDuplicates().sorted())
             DispatchQueue.main.async {
                 self.customView.collectionView.reloadData()
@@ -51,14 +69,48 @@ class ListVC: ViewController<ListVCViews> {
         }
     }
     
-    func fetchContacts(){
-        do {
-            try ContactsManager.shared.fetchContacts { (contacts) in
-                print(contacts.count)
+    private func fetchContacts(){
+        ContactsManager.shared.requestAccess { (result, error) in
+            if let _ = error {
+                self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
             }
-        } catch {
-            self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+            
+            switch result {
+            case true:
+                do {
+                    try ContactsManager.shared.fetchContacts { (contacts) in
+                        print(contacts.count)
+                    }
+                } catch {
+                    self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+                }
+            case false:
+                self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
+            }
         }
+    }
+}
+
+extension ListVC: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        prepareSearchBar(shouldVisible: false)
+        searchBar.text = ""
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            customView.dataSource = customView.employees
+        } else {
+            let firstnameMatches = customView.employees.filter({$0.firstname.lowercased().contains(searchText.lowercased())})
+            let lastnameMatches = customView.employees.filter({$0.lastname.lowercased().contains(searchText.lowercased())})
+            let positionMatches = customView.employees.filter({$0.position.lowercased().contains(searchText.lowercased())})
+            let emailMatches = customView.employees.filter({$0.contacts.email.lowercased().contains(searchText.lowercased())})
+            let projectMatches = customView.employees.filter({$0.projects != nil}).filter({$0.projects!.map({$0.lowercased()}).contains(searchText.lowercased())})
+            customView.dataSource.removeAll()
+            customView.dataSource.appendMultiple(sources: firstnameMatches, lastnameMatches, positionMatches, emailMatches, projectMatches)
+            customView.dataSource.removeDuplicates()
+        }
+        customView.collectionView.reloadData()
     }
 }
 
