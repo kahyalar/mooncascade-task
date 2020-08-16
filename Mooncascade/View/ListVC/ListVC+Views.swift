@@ -12,6 +12,7 @@ class ListVCViews: View {
     var positions: [String] = []
     var employees: [Employee] = []
     var dataSource: [Employee] = []
+    var matchedContacts: [String] = []
     lazy var refreshControl = UIRefreshControl()
     lazy var collectionView = UICollectionView(orientation: .vertical)
     lazy var indicator: UIActivityIndicatorView = {
@@ -69,7 +70,8 @@ extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ListViewCell
         let employee = dataSource.filter({$0.position == positions[indexPath.section]}).sorted(by: { $0.lastname < $1.lastname })[indexPath.row]
-        cell.configureCell(for: employee)
+        cell.nameLabel.text = employee.fullname
+        cell.detailsButton.isHidden = !matchedContacts.contains(employee.fullname.lowercased())
         return cell
     }
     
