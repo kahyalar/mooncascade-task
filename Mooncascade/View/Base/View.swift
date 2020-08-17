@@ -11,19 +11,16 @@ import UIKit
 class View: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setViews()
         layoutViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setViews()
         layoutViews()
     }
     
-    func setViews(){
-         backgroundColor = .white
+    // MARK: - Layout UI components
+    func layoutViews(){
+        backgroundColor = .white
     }
-    
-    func layoutViews(){}
 }

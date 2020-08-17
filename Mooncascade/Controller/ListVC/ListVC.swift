@@ -101,6 +101,7 @@ class ListVC: ViewController<ListVCViews> {
     }
 }
 
+// MARK: - UISearchBar's delegate functions
 extension ListVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""

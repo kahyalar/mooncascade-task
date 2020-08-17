@@ -18,6 +18,10 @@ class MCLabel: UILabel {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    /// Custom initializer for the label with weight and size parameters.
+    /// - Parameters:
+    ///   - weight: Weight parameter of the label
+    ///   - size: Size parameter of the label
     convenience init(weight: UIFont.Weight, size: CGFloat? = 0) {
         self.init()
         self.font = UIFont.systemFont(ofSize: self.font.pointSize + size!, weight: weight)

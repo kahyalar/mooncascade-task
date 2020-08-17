@@ -9,8 +9,10 @@
 import UIKit
 
 class ListViewHeader: Header {
+    // MARK: - Create UI components
     lazy var title = MCLabel(weight: .bold, size: 2.5)
     
+    // MARK: - Layout UI components
     override func layoutViews() {
         super.layoutViews()
         

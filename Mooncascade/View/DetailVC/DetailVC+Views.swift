@@ -9,6 +9,7 @@
 import UIKit
 
 class DetailVCViews: View {
+    // MARK: - Create UI components
     lazy var fullnameLabel = MCLabel(weight: .bold, size: 2.5)
     lazy var emailLabel = MCLabel(weight: .medium)
     lazy var phoneLabel = MCLabel(weight: .medium)
@@ -32,6 +33,7 @@ class DetailVCViews: View {
         return button
     }()
     
+    // MARK: - Layout UI components
     override func layoutViews() {
         super.layoutViews()
         
@@ -55,6 +57,7 @@ class DetailVCViews: View {
         ])
     }
     
+    // MARK: - Configure UI components
     func configureLabels(for employee: Employee) {
         fullnameLabel.text = employee.fullname
         emailLabel.text = "Email: \(employee.contacts.email)"

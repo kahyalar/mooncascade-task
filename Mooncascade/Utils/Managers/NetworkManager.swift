@@ -13,6 +13,10 @@ class NetworkManager {
     static let shared = NetworkManager()
     let cache = URLCache.shared
     
+    /// Sends GET request to fetch employee list from the given endpoint.
+    /// - Parameters:
+    ///   - endpoint: Enum value of the endpoint URL
+    ///   - completed: Closure for completed task which returns Result type with Employee array and MCError
     func getEmployees(for endpoint: Endpoint, completed: @escaping(Result<[Employee], MCError>) -> Void) {
         guard let url = URL(string: endpoint.rawValue) else {
             completed(.failure(.urlNotReachable))

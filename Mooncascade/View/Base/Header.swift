@@ -18,5 +18,6 @@ class Header: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Layout UI components
     func layoutViews(){}
 }

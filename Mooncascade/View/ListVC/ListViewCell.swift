@@ -10,6 +10,8 @@ import UIKit
 class ListViewCell: Cell {
     var employee: Employee!
     weak var viewController: ListVC!
+    
+    // MARK: - Create UI components
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.sizeToFit()
@@ -29,6 +31,7 @@ class ListViewCell: Cell {
         return button
     }()
     
+    // MARK: - Layout UI components
     override func layoutViews() {
         super.layoutViews()
         
@@ -48,13 +51,14 @@ class ListViewCell: Cell {
         ])
     }
     
-    @objc func showNativePage() {
-        ContactsManager.shared.showContactPage(for: employee.nativeContact, from: viewController)
-    }
-    
+    // MARK: - Configure UI components
     func configureCell(for employee: Employee) {
         self.employee = employee
         nameLabel.text = employee.fullname
         detailsButton.isHidden = employee.nativeContact != nil ? false : true
+    }
+    
+    @objc func showNativePage() {
+        ContactsManager.shared.showContactPage(for: employee.nativeContact, from: viewController)
     }
 }

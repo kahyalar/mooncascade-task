@@ -19,6 +19,8 @@ class ListVCViews: View {
             noNetworkLabel.isHidden = dataSource.count != 0
         }
     }
+    
+    // MARK: - Create UI components
     lazy var refreshControl = UIRefreshControl()
     lazy var collectionView = UICollectionView(orientation: .vertical)
     lazy var noNetworkLabel: MCLabel = {
@@ -36,6 +38,7 @@ class ListVCViews: View {
         return indicator
     }()
     
+    // MARK: - Layout UI components
     override func layoutViews() {
         super.layoutViews()
         prepareCollectionView()
@@ -61,6 +64,7 @@ class ListVCViews: View {
         ])
     }
     
+    // MARK: - Configure UI components
     @objc private func refreshList() {
         noNetworkLabel.isHidden = true
         indicator.startAnimating()
@@ -86,6 +90,7 @@ class ListVCViews: View {
     }
 }
 
+// MARK: - UICollectionView's delegate and data source functions
 extension ListVCViews: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return positions.count

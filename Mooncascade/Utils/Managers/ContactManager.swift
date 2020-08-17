@@ -14,10 +14,14 @@ class ContactsManager {
     static let shared = ContactsManager()
     private let store = CNContactStore()
     
+    /// Asks permission to access user's contact data.
+    /// - Parameter completed: Closure for completed task which returns Boolean value and Error
     func requestAccess(_ completed: @escaping (Bool, Error?) -> Void) {
         store.requestAccess(for: .contacts, completionHandler: completed)
     }
-
+    
+    /// Fetches the native contact list.
+    /// - Parameter completion: Closure for completed task which returns fetched contacts array
     func fetchContacts(_ completion: ([CNContact]) -> Void) throws {
         let keys = [
             CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
@@ -35,6 +39,10 @@ class ContactsManager {
         completion(contacts)
     }
     
+    /// Navigates to the native contacts page for given contact.
+    /// - Parameters:
+    ///   - contact: Contact to fetch native page
+    ///   - viewController: Page to present the native contact page
     func showContactPage(for contact: CNContact?, from viewController: UIViewController) {
         guard let contact = contact else {
             DispatchQueue.main.async {
