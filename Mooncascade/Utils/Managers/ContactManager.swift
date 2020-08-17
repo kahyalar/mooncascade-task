@@ -37,7 +37,9 @@ class ContactsManager {
     
     func showContactPage(for contact: CNContact?, from viewController: UIViewController) {
         guard let contact = contact else {
-            viewController.present(AlertManager.shared.alert(for: .systemError), animated: true)
+            DispatchQueue.main.async {
+                viewController.present(AlertManager.shared.alert(for: .systemError), animated: true)
+            }
             return
         }
         
