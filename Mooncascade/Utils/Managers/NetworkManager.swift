@@ -11,6 +11,7 @@ import Foundation
 class NetworkManager {
     private init (){}
     static let shared = NetworkManager()
+    let cache = URLCache.shared
     
     func getEmployees(for endpoint: Endpoint, completed: @escaping(Result<[Employee], MCError>) -> Void) {
         guard let url = URL(string: endpoint.rawValue) else {
@@ -28,10 +29,17 @@ class NetworkManager {
                 completed(.failure(.systemError))
                 return
             }
+            
+            guard let response = response else {
+                completed(.failure(.systemError))
+                return
+            }
 
             do {
                 let decoder = JSONDecoder()
                 let employeeList = try decoder.decode(EmployeeList.self, from: data)
+                let cachedResponse = CachedURLResponse(response: response, data: data)
+                self.cache.storeCachedResponse(cachedResponse, for: URLRequest(url: url))
                 completed(.success(employeeList.employees))
             } catch {
                 completed(.failure(.systemError))

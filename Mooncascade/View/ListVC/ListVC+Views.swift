@@ -14,10 +14,21 @@ class ListVCViews: View {
     var positions: [String] = []
     var contacts: [CNContact] = []
     var employees: [Employee] = []
-    var dataSource: [Employee] = []
-    var matchedContacts: [String] = []
+    var dataSource: [Employee] = [] {
+        didSet {
+            noNetworkLabel.isHidden = dataSource.count != 0
+        }
+    }
     lazy var refreshControl = UIRefreshControl()
     lazy var collectionView = UICollectionView(orientation: .vertical)
+    lazy var noNetworkLabel: MCLabel = {
+        let label = MCLabel(weight: .bold, size: 50.0)
+        label.text = "👻"
+        label.sizeToFit()
+        label.isHidden = true
+        label.minimumScaleFactor = 0.5
+        return label
+    }()
     lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.startAnimating()
@@ -42,10 +53,20 @@ class ListVCViews: View {
             indicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             indicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        
+        addSubview(noNetworkLabel)
+        NSLayoutConstraint.activate([
+            noNetworkLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noNetworkLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
     
     @objc private func refreshList() {
-        collectionView.reloadData()
+        noNetworkLabel.isHidden = true
+        indicator.startAnimating()
+        viewController.fetchContacts()
+        viewController.fetchEmployees()
+        indicator.stopAnimating()
         refreshControl.endRefreshing()
     }
     

@@ -44,7 +44,7 @@ class ListVC: ViewController<ListVCViews> {
         
     }
     
-    private func fetchEmployees(){
+    func fetchEmployees(){
         let group = DispatchGroup()
         let endpoints: [Endpoint] = [.tallinn, .tartu]
         for endpoint in endpoints {
@@ -54,7 +54,9 @@ class ListVC: ViewController<ListVCViews> {
                 case .success(let employees):
                     self.customView.employees.append(contentsOf: employees)
                 case .failure(let error):
-                    self.present(AlertManager.shared.alert(for: error), animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(AlertManager.shared.alert(for: error), animated: true, completion: nil)
+                    }
                 }
                 group.leave()
             }
@@ -70,23 +72,30 @@ class ListVC: ViewController<ListVCViews> {
         }
     }
     
-    private func fetchContacts(){
+    func fetchContacts(){
         ContactsManager.shared.requestAccess { (result, error) in
             if let _ = error {
-                self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
-            }
-            
-            switch result {
-            case true:
-                do {
-                    try ContactsManager.shared.fetchContacts { (contacts) in
-                        self.customView.contacts = contacts
-                    }
-                } catch {
-                    self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
                 }
-            case false:
-                self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
+                
+            } else {
+                switch result {
+                case true:
+                    do {
+                        try ContactsManager.shared.fetchContacts { (contacts) in
+                            self.customView.contacts = contacts
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            self.present(AlertManager.shared.alert(for: .systemError), animated: true, completion: nil)
+                        }
+                    }
+                case false:
+                    DispatchQueue.main.async {
+                        self.present(AlertManager.shared.alert(for: .contactsPermissionDenied), animated: true, completion: nil)
+                    }
+                }
             }
         }
     }
